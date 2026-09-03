@@ -23,6 +23,10 @@ function ProtectedLayout() {
     );
   }
 
+  if (!user) {
+    return <Navigate to="/login" replace />;
+  }
+
   return (
     <div className="flex min-h-screen bg-slate-950 font-sans text-slate-100 antialiased">
       <Sidebar />
