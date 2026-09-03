@@ -1,81 +1,331 @@
-# <img src="https://github.com/hackumass/dashboard/raw/master/app/assets/images/dashboard-logo.png" height=32 alt="Dashboard Logo" /> Dashboard
+# QR Team Management & Verification System
 
+A web-based **QR Team Management and Checkpoint Verification System** designed to manage registered teams, team members, QR-based identification, and checkpoint verification using **Supabase**.
 
-Welcome to Dashboard. A Ruby on Rails web app used for registration, hardware inventory, hardware checkouts, mentorship, check in, and everything else you would need at a Hackathon. Dashboard is a highly scalable, highly modular tool, built by the [HackHer413](https://hackher413.com) and [HackUMass](https://hackumass.com) tech teams. It has been used for multiple events at UMass Amherst and has served thousands of participants in it's three year closed development cycle.
+The system helps organizers quickly identify teams, verify participants, update checkpoint status, and maintain team-related information in a centralized database.
 
-**Want to jump right in? You can begin your Dashboard journey at the [Wiki](https://github.com/hackumass/dashboard/wiki).**
+## 🚀 Features
 
-# Core features
+* 🏷️ **Team Registration & Management**
+* 👥 **Team Member Management**
+* 📱 **QR Code Based Team Identification**
+* ✅ **Checkpoint Verification**
+* 🔄 **Real-time Team Status Updates**
+* 🗄️ **Supabase PostgreSQL Database**
+* 🔐 **Row Level Security (RLS)**
+* 📊 **Team & Verification Data Management**
+* ⚡ Fast and lightweight web interface
+* 📱 Responsive design
 
-Dashboard is structured to be relatively easy to set up, while still allowing for the scalability required to run an event for over 1000 people. It's also designed to be easily customizable to the specific needs of your event.
+## 🏗️ System Architecture
 
-When we say this is the _only_ platform you'll ever need, we aren't kidding. Dashboard includes all of the following functionality right out of the box.
+```text
+                    ┌─────────────────────┐
+                    │     Web Interface   │
+                    └──────────┬──────────┘
+                               │
+                               ▼
+                    ┌─────────────────────┐
+                    │   QR Code Scanner   │
+                    └──────────┬──────────┘
+                               │
+                               ▼
+                    ┌─────────────────────┐
+                    │   Team Verification │
+                    └──────────┬──────────┘
+                               │
+                               ▼
+                    ┌─────────────────────┐
+                    │      Supabase       │
+                    │    PostgreSQL DB    │
+                    └──────────┬──────────┘
+                               │
+                    ┌──────────┴──────────┐
+                    ▼                     ▼
+              ┌───────────┐        ┌──────────────┐
+              │   teams   │        │ team_members │
+              └───────────┘        └──────────────┘
+```
 
-## Account management
-Email confirmation? ✅ Forgotten password? ✅ Slack integration? ✅
+## 🗄️ Database Structure
 
-Jokes aside, we've put a lot of thought into the permissions and roles that we provide.
-- Admins have all the permissions on the site, they can literally do everything
-- Organizers are like your day of helpers, they have the ability to check participants in, and check out hardware to participants but can't touch things like the schedule or the prize listings
-- Mentors have access to the mentorship dashboard where they can view, search and resolve mentorship tickets
-- Atendees can view everything, and create and edit their projects & mentorship requests
+### `teams`
 
-## Event registration
-Fully featured event applications including:
-- resume PDF uploads 
-- simple automatic resume verification and auto-flagging of suspicious applications
-- completely customizable application questions (see [extensible options](#extensible-options))
-- accept, deny, waitlist and flag applications
-- fully customizable email templates for accepted, denied, and waitlisted participants (see [simple customization](#simple-customization))
-- fully featured search for applications
-- export applications as csv
+Stores information about registered teams.
 
-## Event check-in
-Want to know who actually showed up? We've got you covered. Each applicant recieves their own unique QR code via email, and on their dashboard home page that you can easily scan to check them into the event.
+Typical fields include:
 
-## Hardware checkout
-Got your own hardware? Want to manage inventory with barcodes and check your stuff out to hackers? Remember that handy QR code? Yeah, we gotchu.
+| Field          | Description              |
+| -------------- | ------------------------ |
+| `id`           | Unique team UUID         |
+| `team_code`    | Unique team identifier   |
+| `team_name`    | Name of the team         |
+| `college_name` | College/institution name |
+| `leader_name`  | Team leader              |
+| `leader_phone` | Leader contact           |
+| `leader_email` | Leader email             |
+| `status`       | Current team status      |
+| `created_at`   | Registration timestamp   |
 
-## Mentorship
-Your participants need a mentor. Your mentors need to know where to go. Our simple ticket system will allow your participants to submit a request with whatever they need help with. They can even upload a screenshot or other image to help the mentors understand what's going on.
+### `team_members`
 
-Additionally we've included a slack integration that allows mentors to click a link and directly DM the participants on slack. Just in case they're a little worn out ;)
+Stores individual members associated with a team.
 
-## Schedule
-We've got a fully customizable schedule baked right in. Your admins can edit it, and everyone else can see it. They even get a little preview for upcoming events on their "dashboard".
+| Field     | Description       |
+| --------- | ----------------- |
+| `id`      | Unique member ID  |
+| `team_id` | Related team UUID |
+| `name`    | Member name       |
+| `email`   | Member email      |
+| `phone`   | Member contact    |
+| `role`    | Team/member role  |
 
-## Projects, Prizes & Judging
-Devpost is great. But sometimes right before submission it can seem like their servers are just a rasberry pi cluster in your old college roommate's closet...
+## 🔐 Supabase Row Level Security
 
-Worry not, we've got it all built right in. You just add the prizes you're offering via our GUI. The participants can then submit their projects and choose what prizes they want. And our platform does the rest. Assigning table numbers? ✅ Automagically printing out rubrics with their info filled in? ✅ Making sure the hacks that need power outlets can get them? ✅
+RLS is enabled on both tables:
 
-You get the idea...
+```sql
+ALTER TABLE public.teams ENABLE ROW LEVEL SECURITY;
+ALTER TABLE public.team_members ENABLE ROW LEVEL SECURITY;
+```
 
-## Don't like it? Don't use it!
-If you're feeling a little overwhelmed don't worry. We know it's a lot to transition all at once. That's why we've built in `feature flags` which allow you to turn off any of the aformentioned features. Want to use some other scheduling app? Go right ahead, you can just turn the schedule off and use the rest. No code modification required.
+The system includes policies for:
 
-# Simple customization
-Every hackathon is different. Each event has it's own name, location, transportation instructions, and so much more. We understand that better than anyone. After all, at UMass we use Dashboard for two different events every year. That's why we've created the `hackathon-config` submodule. It's a folder within dashboard that's actually a git repository itself. You just fork the [example config repo](https://github.com/hackumass/redpandahacks-config) and make all your changes there. Then you can keep track of any changes to your written information or configuration settings there without ever touching a line of Ruby code.
+* `SELECT` — Read team information
+* `INSERT` — Add teams and members
+* `UPDATE` — Update verification/checkpoint information
 
-# Extensible options
-With Dashboard we wanted to create an application that's not only simple to customize, but also allows you to meet the complex needs of your event. That's why you'll find countless settings within the [configuration repository](https://github.com/hackumass/redpandahacks-config). Here's just a small taste of some of the options we've included:
+Example:
 
-- Open and close applications
-- Enable and disable a waitlist
-- Built-in email configuration
-- Slack integration
-- Completely custom application questions that [you specify in YAML](https://github.com/hackumass/redpandahacks-config/blob/master/event_application.yml) and we take care of the rest
+```sql
+CREATE POLICY "Allow public read teams"
+ON public.teams
+FOR SELECT
+USING (true);
+```
 
-# Get started using Dashboard
-To get started using Dashboard head over to the [wiki](https://github.com/hackumass/dashboard/wiki) and follow along!
+> ⚠️ **Security Note:** The current development policies allow broad public access. For a production deployment, replace `USING (true)` and `WITH CHECK (true)` with authenticated and role-based policies.
 
-## Using Dashboard?
-Let us know by adding yourself to our [list of active users](https://github.com/fuseumass/dashboard/wiki/Events-using-Dashboard). Knowing that dashboard is useful to you all keeps our team extra motivated!
+## 📱 QR Verification Flow
 
-# Issues?
-If you experience any issues or encounter any bugs, please file an issue on the GitHub [issues](https://github.com/hackumass/dashboard/issues) page.
+```text
+Team Registration
+       ↓
+Team Code Generated
+       ↓
+QR Code Generated
+       ↓
+QR Code Scanned
+       ↓
+Team Found in Supabase
+       ↓
+Team Information Displayed
+       ↓
+Checkpoint / Verification Updated
+       ↓
+Status Saved
+```
 
-# Contribute to Dashboard
-We welcome your contributions to this open source project and we actively encourage every event who's using it to commit their tech resources to help make Dashboard better for everyone. To get started developing, head over to the [wiki](https://github.com/hackumass/dashboard/wiki) and follow the instructions for setting up the repository.
+## 🛠️ Technologies
 
-We thank you for any contributions or suggestions you have ❤️
+* **HTML5**
+* **CSS3**
+* **JavaScript**
+* **QR Code**
+* **Supabase**
+* **PostgreSQL**
+* **Row Level Security (RLS)**
+
+## ⚙️ Setup
+
+### 1. Clone the repository
+
+```bash
+git clone <your-repository-url>
+cd <project-folder>
+```
+
+### 2. Create a Supabase project
+
+Create a project on Supabase and open the **SQL Editor**.
+
+### 3. Create the database tables
+
+Run the project's database SQL in the Supabase SQL Editor.
+
+### 4. Configure Supabase
+
+Add your Supabase project URL and public/anon key to the application configuration.
+
+Example:
+
+```javascript
+const SUPABASE_URL = "YOUR_SUPABASE_URL";
+const SUPABASE_ANON_KEY = "YOUR_SUPABASE_ANON_KEY";
+```
+
+**Never expose a Supabase service-role key in frontend code.**
+
+### 5. Configure RLS
+
+Enable RLS and create the required policies.
+
+If policies already exist, use:
+
+```sql
+DROP POLICY IF EXISTS "Allow public read teams"
+ON public.teams;
+```
+
+before recreating them.
+
+### 6. Run the application
+
+For a simple static project, open the application through a local development server.
+
+Example:
+
+```bash
+python3 -m http.server 8000
+```
+
+Then open:
+
+```text
+http://localhost:8000
+```
+
+## 📂 Suggested Project Structure
+
+```text
+qr-team-management/
+│
+├── index.html
+├── scanner.html
+├── dashboard.html
+│
+├── css/
+│   └── style.css
+│
+├── js/
+│   ├── app.js
+│   ├── scanner.js
+│   └── supabase.js
+│
+├── assets/
+│   └── images/
+│
+├── database/
+│   └── schema.sql
+│
+└── README.md
+```
+
+## 🔄 Checkpoint Management
+
+The system can be extended to support multiple checkpoints:
+
+```text
+Checkpoint 1
+     ↓
+Checkpoint 2
+     ↓
+Checkpoint 3
+     ↓
+Checkpoint 4
+     ↓
+Final Verification
+```
+
+Each checkpoint can store:
+
+* Verification status
+* Verification timestamp
+* Checkpoint identifier
+* Team identifier
+* Optional verifier information
+
+## 🎯 Use Cases
+
+This system can be used for:
+
+* Hackathons
+* College events
+* Technical fests
+* Competitions
+* Workshops
+* Team-based registrations
+* Event entry verification
+* Multi-stage checkpoint systems
+
+## 🔒 Security Recommendations
+
+For production deployment:
+
+1. Enable Supabase RLS.
+2. Avoid using the service-role key in frontend code.
+3. Use authenticated users for organizers/admins.
+4. Restrict `INSERT` and `UPDATE` permissions.
+5. Validate QR/team IDs on the server/database side.
+6. Add role-based access for administrators and verifiers.
+7. Store an audit log for checkpoint updates.
+8. Validate all user-submitted data.
+
+## 🐛 Troubleshooting
+
+### Policy already exists
+
+If Supabase returns:
+
+```text
+ERROR: 42710:
+policy "Allow public read teams"
+for table "teams" already exists
+```
+
+Use:
+
+```sql
+DROP POLICY IF EXISTS "Allow public read teams"
+ON public.teams;
+```
+
+Then recreate the policy.
+
+### Null value violates NOT NULL constraint
+
+Example:
+
+```text
+null value in column "college_name"
+violates not-null constraint
+```
+
+Make sure the registration form sends a valid `college_name` before inserting the team.
+
+## 📈 Future Improvements
+
+* [ ] Admin authentication
+* [ ] Role-based access control
+* [ ] QR code generation dashboard
+* [ ] QR scan history
+* [ ] Checkpoint analytics
+* [ ] Duplicate scan detection
+* [ ] Export teams to CSV/Excel
+* [ ] Real-time dashboard
+* [ ] Attendance tracking
+* [ ] Audit logs
+* [ ] Offline QR verification
+* [ ] PWA/mobile support
+
+## 👨‍💻 Project
+
+**QR Team Management & Verification System**
+
+Built for efficient team registration, QR identification, and checkpoint management for large-scale events.
+
+---
+
+### License
+
+This project is intended for educational, event-management, and hackathon use.
