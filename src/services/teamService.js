@@ -188,6 +188,27 @@ export async function updateCheckpoint(memberId, teamId, checkpointField, value)
   return true;
 }
 
+// 7b. Toggle Team & Members Presence Status
+export async function toggleTeamPresence(teamId, newStatus) {
+  const now = new Date().toISOString();
+  try {
+    await supabase
+      .from('teams')
+      .update({ registration_verified: newStatus, updated_at: now })
+      .eq('id', teamId);
+
+    await supabase
+      .from('team_members')
+      .update({ registration_verified: newStatus, is_present: newStatus, updated_at: now })
+      .eq('team_id', teamId);
+
+    return true;
+  } catch (e) {
+    console.error('toggleTeamPresence failed:', e);
+    return false;
+  }
+}
+
 // 8. Import Teams Batch
 export async function importTeams(teamRows) {
   let successCount = 0;
