@@ -12,6 +12,7 @@ import {
   Search,
   ShieldCheck,
   Ticket,
+  FileText,
   Menu,
   X
 } from 'lucide-react';
@@ -24,6 +25,7 @@ const NAV_ITEMS = [
 ];
 
 const ADMIN_NAV_ITEMS = [
+  { to: '/present-teams', icon: FileText,    label: 'Present Teams PDF' },
   { to: '/import',    icon: FileSpreadsheet, label: 'Import Excel' },
   { to: '/documents', icon: FileCheck,       label: 'Documents' },
   { to: '/audit',     icon: History,         label: 'Audit Logs' },

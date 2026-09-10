@@ -228,6 +228,13 @@ export default function Dashboard() {
             <span>Scan Team QR</span>
           </button>
           <button
+            onClick={() => navigate('/present-teams')}
+            className="flex items-center space-x-2 px-4 py-2.5 bg-slate-800 hover:bg-slate-700 text-white font-medium text-sm rounded-xl border border-slate-700 transition-colors"
+          >
+            <FileText className="w-4 h-4 text-emerald-400" />
+            <span>Present Teams PDF</span>
+          </button>
+          <button
             onClick={() => navigate('/import')}
             className="flex items-center space-x-2 px-4 py-2.5 bg-slate-800 hover:bg-slate-700 text-white font-medium text-sm rounded-xl border border-slate-700 transition-colors"
           >

@@ -11,6 +11,7 @@ import ExcelImport from './pages/admin/ExcelImport';
 import TeamTicketPortal from './pages/admin/TeamTicketPortal';
 import AuditLogs from './pages/admin/AuditLogs';
 import DocumentManagement from './pages/admin/DocumentManagement';
+import PresentTeamsReport from './pages/admin/PresentTeamsReport';
 
 function ProtectedLayout() {
   const { user, loading } = useAuth();
@@ -43,6 +44,7 @@ function ProtectedLayout() {
             <Route path="/import" element={<ExcelImport />} />
             <Route path="/ticket" element={<TeamTicketPortal />} />
             <Route path="/documents" element={<DocumentManagement />} />
+            <Route path="/present-teams" element={<PresentTeamsReport />} />
             <Route path="/audit" element={<AuditLogs />} />
             <Route path="*" element={<Navigate to="/dashboard" replace />} />
           </Routes>
