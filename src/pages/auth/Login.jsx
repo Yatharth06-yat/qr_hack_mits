@@ -412,9 +412,14 @@ export default function Login() {
           <div className="h-px w-8 bg-slate-800" />
           <p className="text-slate-500">
             Designed &amp; Developed by{' '}
-            <span className="font-bold bg-gradient-to-r from-emerald-400 to-cyan-400 bg-clip-text text-transparent">
-              Yatharth Gupta
-            </span>
+            <a
+              href="https://www.linkedin.com/in/yatharth-gupta-525b40306/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="font-bold bg-gradient-to-r from-emerald-400 to-cyan-400 bg-clip-text text-transparent hover:from-emerald-300 hover:to-cyan-300 transition-all"
+            >
+              Yatharth Gupta ↗
+            </a>
           </p>
           <div className="h-px w-8 bg-slate-800" />
         </div>

@@ -274,12 +274,17 @@ export default function CertificateDownload() {
           <p className="text-xs text-slate-500">© 2026 MITS Hackathon Verification &amp; Certificate Desk. All rights reserved.</p>
           <div className="flex items-center space-x-2">
             <div className="h-px w-10 bg-slate-700" />
-            <div className="px-4 py-1.5 bg-slate-800 rounded-full border border-slate-700/60 flex items-center space-x-2">
+            <a
+              href="https://www.linkedin.com/in/yatharth-gupta-525b40306/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="px-4 py-1.5 bg-slate-800 rounded-full border border-slate-700/60 flex items-center space-x-2 hover:border-emerald-500/40 hover:bg-slate-700/80 transition-all group"
+            >
               <span className="text-[10px] text-slate-500 uppercase tracking-wider font-semibold">Designed &amp; Developed by</span>
-              <span className="text-xs font-extrabold bg-gradient-to-r from-emerald-400 to-cyan-400 bg-clip-text text-transparent">
-                Yatharth Gupta
+              <span className="text-xs font-extrabold bg-gradient-to-r from-emerald-400 to-cyan-400 bg-clip-text text-transparent group-hover:from-emerald-300 group-hover:to-cyan-300 transition-all">
+                Yatharth Gupta ↗
               </span>
-            </div>
+            </a>
             <div className="h-px w-10 bg-slate-700" />
           </div>
         </div>
