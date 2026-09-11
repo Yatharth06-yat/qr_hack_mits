@@ -406,8 +406,18 @@ export default function Login() {
         )}
       </div>
 
-      <footer className="text-center text-xs text-slate-600 pt-8">
-        <p>© 2026 MITS Hackathon Verification & Certificate System</p>
+      <footer className="text-center text-xs text-slate-600 pt-8 space-y-2">
+        <p>© 2026 MITS Hackathon Verification &amp; Certificate System</p>
+        <div className="flex items-center justify-center space-x-2">
+          <div className="h-px w-8 bg-slate-800" />
+          <p className="text-slate-500">
+            Designed &amp; Developed by{' '}
+            <span className="font-bold bg-gradient-to-r from-emerald-400 to-cyan-400 bg-clip-text text-transparent">
+              Yatharth Gupta
+            </span>
+          </p>
+          <div className="h-px w-8 bg-slate-800" />
+        </div>
       </footer>
     </div>
   );
