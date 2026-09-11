@@ -269,8 +269,20 @@ export default function CertificateDownload() {
       </main>
 
       {/* Footer */}
-      <footer className="border-t border-slate-900 bg-slate-950 py-6 text-center text-xs text-slate-500">
-        <p>© 2026 MITS Hackathon Verification & Certificate Desk. All rights reserved.</p>
+      <footer className="border-t border-slate-800 bg-slate-900/60 backdrop-blur-sm py-8">
+        <div className="max-w-4xl mx-auto px-4 flex flex-col items-center space-y-3 text-center">
+          <p className="text-xs text-slate-500">© 2026 MITS Hackathon Verification &amp; Certificate Desk. All rights reserved.</p>
+          <div className="flex items-center space-x-2">
+            <div className="h-px w-10 bg-slate-700" />
+            <div className="px-4 py-1.5 bg-slate-800 rounded-full border border-slate-700/60 flex items-center space-x-2">
+              <span className="text-[10px] text-slate-500 uppercase tracking-wider font-semibold">Designed &amp; Developed by</span>
+              <span className="text-xs font-extrabold bg-gradient-to-r from-emerald-400 to-cyan-400 bg-clip-text text-transparent">
+                Yatharth Gupta
+              </span>
+            </div>
+            <div className="h-px w-10 bg-slate-700" />
+          </div>
+        </div>
       </footer>
     </div>
   );
