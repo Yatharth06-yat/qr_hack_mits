@@ -14,7 +14,8 @@ import {
   Ticket,
   FileText,
   Menu,
-  X
+  X,
+  Award
 } from 'lucide-react';
 
 const NAV_ITEMS = [
@@ -25,6 +26,7 @@ const NAV_ITEMS = [
 ];
 
 const ADMIN_NAV_ITEMS = [
+  { to: '/certificates-admin', icon: Award, label: 'Certificates Desk' },
   { to: '/present-teams', icon: FileText,    label: 'Present Teams PDF' },
   { to: '/import',    icon: FileSpreadsheet, label: 'Import Excel' },
   { to: '/documents', icon: FileCheck,       label: 'Documents' },

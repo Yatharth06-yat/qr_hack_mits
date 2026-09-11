@@ -1,6 +1,6 @@
 import { supabase } from '../lib/supabaseClient';
 
-// 1. Fetch all teams from Supabase
+// 1. Fetch all teams from Supabase with fallback
 export async function getAllTeams() {
   try {
     const { data: teams, error } = await supabase
@@ -17,9 +17,17 @@ export async function getAllTeams() {
     }
   } catch (e) {}
 
-  const res = await fetch('/api/teams');
-  const json = await res.json();
-  return json.teams || [];
+  try {
+    const res = await fetch('/api/teams');
+    if (res.ok) {
+      const json = await res.json();
+      return json.teams || [];
+    }
+  } catch (e) {
+    console.warn('Backend API /api/teams unavailable:', e.message);
+  }
+
+  return [];
 }
 
 export const getTeams = getAllTeams;
@@ -56,8 +64,10 @@ export async function getTeamByQrToken(qrToken) {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ token: cleanToken })
     });
-    const json = await res.json();
-    if (res.ok && json.success) return json.team;
+    if (res.ok) {
+      const json = await res.json();
+      if (json.success) return json.team;
+    }
   } catch (e) {}
 
   return null;
@@ -80,10 +90,16 @@ export async function getTeamMembers(teamUuid) {
     }
   } catch (e) {}
 
-  const res = await fetch('/api/teams');
-  const json = await res.json();
-  const team = (json.teams || []).find(t => t.id === teamUuid);
-  return team ? team.members || [] : [];
+  try {
+    const res = await fetch('/api/teams');
+    if (res.ok) {
+      const json = await res.json();
+      const team = (json.teams || []).find(t => t.id === teamUuid);
+      return team ? team.members || [] : [];
+    }
+  } catch (e) {}
+
+  return [];
 }
 
 // 4. Combined Team + Members relational lookup flow
@@ -113,17 +129,23 @@ export async function getTeamById(id) {
     }
   } catch (e) {}
 
-  const res = await fetch(`/api/teams`);
-  const json = await res.json();
-  const found = (json.teams || []).find(t => t.id === id);
-  return found || null;
+  try {
+    const res = await fetch(`/api/teams`);
+    if (res.ok) {
+      const json = await res.json();
+      const found = (json.teams || []).find(t => t.id === id);
+      return found || null;
+    }
+  } catch (e) {}
+
+  return null;
 }
 
 // 6. Search Teams (by TEAM-2026-XXXX, Team Name, College, Leader, Email)
 export async function searchTeams(query) {
   if (!query) return getAllTeams();
 
-  const term = `%${query}%`;
+  const term = `%${query.trim()}%`;
   try {
     const { data: teams, error } = await supabase
       .from('teams')
@@ -140,9 +162,36 @@ export async function searchTeams(query) {
     }
   } catch (e) {}
 
-  const res = await fetch(`/api/search?q=${encodeURIComponent(query)}`);
-  const json = await res.json();
-  return json.teams || [];
+  try {
+    const res = await fetch(`/api/search?q=${encodeURIComponent(query)}`);
+    if (res.ok) {
+      const json = await res.json();
+      if (json.teams) return json.teams;
+    }
+  } catch (e) {
+    console.warn('Backend API /api/search unavailable:', e.message);
+  }
+
+  // Final fallback: fetch all teams and filter in-memory
+  const all = await getAllTeams();
+  const q = query.toLowerCase().trim();
+  return all.filter(t => {
+    const code = (t.team_id || t.team_code || '').toLowerCase();
+    const name = (t.team_name || '').toLowerCase();
+    const college = (t.college_name || '').toLowerCase();
+    const leader = (t.leader_name || '').toLowerCase();
+    const leaderEmail = (t.leader_email || '').toLowerCase();
+    const memberNames = (t.members || []).map(m => (m.name || '').toLowerCase()).join(' ');
+
+    return (
+      code.includes(q) ||
+      name.includes(q) ||
+      college.includes(q) ||
+      leader.includes(q) ||
+      leaderEmail.includes(q) ||
+      memberNames.includes(q)
+    );
+  });
 }
 
 // 7. Update Member Checkpoint — writes to team_members, then syncs teams table
@@ -259,15 +308,29 @@ export async function getDashboardStats() {
     }
   } catch (e) {}
 
-  const res = await fetch('/api/stats');
-  const json = await res.json();
+  try {
+    const res = await fetch('/api/stats');
+    if (res.ok) {
+      const json = await res.json();
+      return {
+        totalTeams: json.stats?.total_teams || 0,
+        totalMembers: 0,
+        regVerified: json.stats?.registration_verified || 0,
+        goibibo: json.stats?.goibibo_registered || 0,
+        foodToken: json.stats?.food_token_issued || 0,
+        kitIssued: json.stats?.kit_issued || 0,
+        undertaking: json.stats?.undertaking_completed || 0
+      };
+    }
+  } catch (e) {}
+
   return {
-    totalTeams: json.stats?.total_teams || 0,
+    totalTeams: 0,
     totalMembers: 0,
-    regVerified: json.stats?.registration_verified || 0,
-    goibibo: json.stats?.goibibo_registered || 0,
-    foodToken: json.stats?.food_token_issued || 0,
-    kitIssued: json.stats?.kit_issued || 0,
-    undertaking: json.stats?.undertaking_completed || 0
+    regVerified: 0,
+    goibibo: 0,
+    foodToken: 0,
+    kitIssued: 0,
+    undertaking: 0
   };
 }

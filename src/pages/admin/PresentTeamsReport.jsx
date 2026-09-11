@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useMemo } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { getAllTeams, toggleTeamPresence, updateCheckpoint } from '../../services/teamService';
 import jsPDF from 'jspdf';
 import autoTable from 'jspdf-autotable';
@@ -21,12 +22,14 @@ import {
   ChevronDown,
   ChevronUp,
   Check,
-  X
+  X,
+  Award
 } from 'lucide-react';
 
 const CP_KEYS = ['registration_verified', 'goibibo_registered', 'food_token_issued', 'kit_issued', 'undertaking_completed'];
 
 export default function PresentTeamsReport() {
+  const navigate = useNavigate();
   const [teams, setTeams] = useState([]);
   const [loading, setLoading] = useState(true);
   const [query, setQuery] = useState('');
@@ -417,6 +420,14 @@ export default function PresentTeamsReport() {
           >
             <Download className="w-4 h-4" />
             <span>Download PDF</span>
+          </button>
+
+          <button
+            onClick={() => navigate('/certificates-admin')}
+            className="flex items-center space-x-2 px-4 py-2.5 bg-amber-500 hover:bg-amber-400 text-slate-950 font-extrabold text-sm rounded-xl transition-all shadow-lg shadow-amber-500/20"
+          >
+            <Award className="w-4 h-4" />
+            <span>Certificates Desk</span>
           </button>
         </div>
       </div>
