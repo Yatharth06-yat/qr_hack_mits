@@ -40,4 +40,5 @@ public/assets/.sprocket*
 .env.*.local
 node_modules
 dist
+*.db
 

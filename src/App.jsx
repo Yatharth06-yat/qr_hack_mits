@@ -14,6 +14,7 @@ import DocumentManagement from './pages/admin/DocumentManagement';
 import PresentTeamsReport from './pages/admin/PresentTeamsReport';
 import AdminCertificates from './pages/admin/AdminCertificates';
 import CertificateDownload from './pages/public/CertificateDownload';
+import TeamCertificates from './pages/admin/TeamCertificates';
 
 function ProtectedLayout() {
   const { user, loading } = useAuth();
@@ -48,6 +49,7 @@ function ProtectedLayout() {
             <Route path="/documents" element={<DocumentManagement />} />
             <Route path="/present-teams" element={<PresentTeamsReport />} />
             <Route path="/certificates-admin" element={<AdminCertificates />} />
+            <Route path="/team-certificates" element={<TeamCertificates />} />
             <Route path="/audit" element={<AuditLogs />} />
             <Route path="*" element={<Navigate to="/dashboard" replace />} />
           </Routes>

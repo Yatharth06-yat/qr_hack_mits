@@ -27,12 +27,14 @@ const NAV_ITEMS = [
 
 const ADMIN_NAV_ITEMS = [
   { to: '/certificates-admin', icon: Award, label: 'Certificates Desk' },
+  { to: '/team-certificates',  icon: Award, label: '🏆 Top 5 Certificates' },
   { to: '/present-teams', icon: FileText,    label: 'Present Teams PDF' },
   { to: '/import',    icon: FileSpreadsheet, label: 'Import Excel' },
   { to: '/documents', icon: FileCheck,       label: 'Documents' },
   { to: '/audit',     icon: History,         label: 'Audit Logs' },
   { to: '/ticket',    icon: Ticket,          label: 'Team Ticket' },
 ];
+
 
 const navLinkClass = ({ isActive }) =>
   `flex items-center space-x-3 px-4 py-3 rounded-xl text-sm font-medium transition-colors ${

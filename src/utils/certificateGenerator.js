@@ -80,7 +80,8 @@ export function renderCertificateContent(doc, member, team, config) {
   }
 
   // 2. Overlay Participant Name dynamically in exact center position
-  const recipientName = (member ? member.name : 'PARTICIPANT NAME').toUpperCase();
+  const rawName = member ? member.name : 'PARTICIPANT NAME';
+  const recipientName = (rawName || 'PARTICIPANT NAME').trim().replace(/\s+/g, ' ').toUpperCase();
   const centerX = width / 2;
   const nameY = 109.5; // Shifted lower to center perfectly above the line
 

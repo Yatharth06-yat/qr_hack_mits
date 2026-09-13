@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>IEEE HackSynapse 2026 – Top 4 Team Certificates</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;0,600;0,700;0,800;1,400&family=Playfair+Display:ital,wght@0,600;0,700;1,400&display=swap" rel="stylesheet">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { background: #0f172a; font-family: 'Montserrat', sans-serif; padding: 30px 15px; color: #fff; }
+
+    .header { text-align: center; margin-bottom: 30px; }
+    .header h1 { font-size: 26px; font-weight: 800; color: #f8fafc; margin-bottom: 6px; letter-spacing: -0.5px; }
+    .header p { color: #94a3b8; font-size: 14px; }
+    .header .badge { display: inline-block; background: #7c3aed; color: #fff; padding: 4px 12px; border-radius: 20px; font-size: 12px; font-weight: 700; margin-top: 8px; }
+
+    .controls-bar {
+      max-width: 1100px; margin: 0 auto 30px; background: #1e293b; border: 1px solid #334155;
+      padding: 16px 24px; border-radius: 14px; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px;
+    }
+    .team-select-group { display: flex; align-items: center; gap: 10px; }
+    .team-select-group label { font-size: 14px; font-weight: 600; color: #cbd5e1; }
+    select, input[type="text"] {
+      background: #0f172a; border: 1px solid #475569; color: #fff; padding: 8px 14px; border-radius: 8px; font-size: 14px; outline: none;
+    }
+    select:focus, input[type="text"]:focus { border-color: #a855f7; }
+
+    .btn-print-all {
+      background: linear-gradient(135deg, #7c3aed, #4f46e5); color: #fff; border: none; padding: 10px 22px;
+      border-radius: 10px; font-weight: 700; cursor: pointer; font-size: 14px; display: flex; align-items: center; gap: 8px;
+    }
+    .btn-print-all:hover { opacity: 0.9; }
+
+    /* Certificates List */
+    .certificates-container {
+      display: flex; flex-direction: column; gap: 40px; max-width: 1100px; margin: 0 auto;
+    }
+
+    .cert-wrapper {
+      background: #1e293b; border: 1px solid #334155; border-radius: 16px; padding: 20px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    }
+    .cert-header {
+      display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; padding-bottom: 12px; border-bottom: 1px solid #334155;
+    }
+    .cert-title-info { display: flex; align-items: center; gap: 10px; }
+    .cert-title-info h2 { font-size: 18px; font-weight: 700; color: #f1f5f9; }
+    .cert-title-info .tag { background: #312e81; color: #a5b4fc; font-size: 12px; padding: 2px 10px; border-radius: 12px; font-weight: 600; }
+
+    .cert-actions { display: flex; gap: 10px; align-items: center; }
+    .name-input { width: 220px; }
+
+    .btn-card-print {
+      background: #3b82f6; color: #fff; border: none; padding: 8px 16px; border-radius: 8px; font-weight: 600; cursor: pointer; font-size: 13px;
+    }
+    .btn-card-print:hover { background: #2563eb; }
+
+    /* The actual relative certificate frame */
+    .cert-image-container {
+      position: relative;
+      width: 100%;
+      max-width: 1000px;
+      margin: 0 auto;
+      background: #fff;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+    }
+
+    .cert-bg-img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    /* Dynamic Overlays on top of the original certificate template image */
+    .overlay-member-name {
+      position: absolute;
+      top: 48.5%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-family: 'Playfair Display', 'Times New Roman', serif;
+      font-size: clamp(18px, 3.2vw, 36px);
+      font-weight: 700;
+      color: #1e1035;
+      text-align: center;
+      white-space: nowrap;
+      letter-spacing: 0.5px;
+    }
+
+    .overlay-team-name {
+      position: absolute;
+      top: 54.3%;
+      left: 55.5%;
+      transform: translateY(-50%);
+      font-family: 'Montserrat', sans-serif;
+      font-size: clamp(13px, 2vw, 22px);
+      font-weight: 700;
+      color: #1e1035;
+      letter-spacing: 0.5px;
+    }
+
+    /* Print Styles */
+    @media print {
+      body { background: #fff; color: #000; padding: 0; }
+      .header, .controls-bar, .cert-header { display: none !important; }
+      .certificates-container { gap: 0; max-width: 100%; margin: 0; }
+      .cert-wrapper { background: none; border: none; padding: 0; margin: 0; border-radius: 0; box-shadow: none; page-break-after: always; }
+      .cert-image-container { max-width: 100%; width: 100vw; height: 100vh; page-break-inside: avoid; border-radius: 0; }
+      .cert-bg-img { width: 100%; height: 100vh; object-fit: contain; }
+      @page { size: landscape; margin: 0; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="header">
+    <h1>IEEE HackSynapse 2026 Certificates</h1>
+    <p>Top 4 Winning Teams — Preserving the exact original uploaded IEEE HackSynapse Certificate image</p>
+    <span class="badge">Official Template Background</span>
+  </div>
+
+  <div class="controls-bar">
+    <div class="team-select-group">
+      <label>Filter Team:</label>
+      <select id="filterSelect" onchange="filterTeams()">
+        <option value="all">All 4 Selected Teams</option>
+        <option value="NexisEdge">NexisEdge</option>
+        <option value="RideGuardian">RideGuardian</option>
+        <option value="Taky-Space">Taky-Space</option>
+        <option value="ASCE">ASCE</option>
+      </select>
+    </div>
+    <button class="btn-print-all" onclick="window.print()">
+      🖨️ Print / Save All as PDF
+    </button>
+  </div>
+
+  <div class="certificates-container" id="certContainer">
+    <!-- Rendered via JS below -->
+  </div>
+
+  <script>
+    const TEAMS = [
+      { name: "NexisEdge" },
+      { name: "RideGuardian" },
+      { name: "Taky-Space" },
+      { name: "ASCE" }
+    ];
+
+    function renderCertificates() {
+      const container = document.getElementById('certContainer');
+      const filter = document.getElementById('filterSelect').value;
+      container.innerHTML = '';
+
+      const filteredTeams = filter === 'all' ? TEAMS : TEAMS.filter(t => t.name === filter);
+
+      filteredTeams.forEach((team, idx) => {
+        const wrapper = document.createElement('div');
+        wrapper.className = 'cert-wrapper';
+        wrapper.id = `team-wrapper-${idx}`;
+
+        wrapper.innerHTML = `
+          <div class="cert-header">
+            <div class="cert-title-info">
+              <h2>🏆 Team: ${team.name}</h2>
+              <span class="tag">Top 5 Winner</span>
+            </div>
+            <div class="cert-actions">
+              <input type="text" class="name-input" id="input-member-${idx}" placeholder="Enter Member Name..." value="" oninput="updateName(${idx}, '${team.name}')">
+              <button class="btn-card-print" onclick="printSingle(${idx})">Print This Certificate</button>
+            </div>
+          </div>
+
+          <div class="cert-image-container" id="cert-box-${idx}">
+            <img src="certificate_template.png" class="cert-bg-img" alt="IEEE HackSynapse Original Certificate Template" />
+            <div class="overlay-member-name" id="display-member-${idx}">PARTICIPANT NAME</div>
+            <div class="overlay-team-name" id="display-team-${idx}">${team.name}</div>
+          </div>
+        `;
+
+        container.appendChild(wrapper);
+      });
+    }
+
+    function updateName(idx, teamName) {
+      const val = document.getElementById(`input-member-${idx}`).value.trim();
+      const displayEl = document.getElementById(`display-member-${idx}`);
+      displayEl.textContent = val ? val.toUpperCase() : 'PARTICIPANT NAME';
+    }
+
+    function filterTeams() {
+      renderCertificates();
+    }
+
+    function printSingle(idx) {
+      const allWrappers = document.querySelectorAll('.cert-wrapper');
+      allWrappers.forEach((el, i) => {
+        if (i !== idx) el.style.display = 'none';
+      });
+      window.print();
+      allWrappers.forEach((el) => {
+        el.style.display = 'block';
+      });
+    }
+
+    // Initial render
+    renderCertificates();
+  </script>
+</body>
+</html>
