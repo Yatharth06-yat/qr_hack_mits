@@ -1,5 +1,5 @@
 import jsPDF from 'jspdf';
-import { CERTIFICATE_TEMPLATE_BASE64 } from '../assets/certificateTemplateBase64';
+import { CERTIFICATE_TEMPLATE_BASE64 } from '../assets/certificateTemplateBase64.js';
 
 // Default configuration using the exact uploaded sample certificate image
 export const DEFAULT_CERTIFICATE_CONFIG = {
@@ -70,9 +70,9 @@ export function renderCertificateContent(doc, member, team, config) {
   const width = 297; // A4 Landscape width mm
   const height = 210; // A4 Landscape height mm
 
-  // 1. Draw full-bleed exact sample certificate background image
+  // 1. Draw full-bleed exact sample certificate background image at ultra-high 300 DPI quality
   try {
-    doc.addImage(CERTIFICATE_TEMPLATE_BASE64, 'PNG', 0, 0, width, height);
+    doc.addImage(CERTIFICATE_TEMPLATE_BASE64, 'PNG', 0, 0, width, height, undefined, 'NONE');
   } catch (e) {
     // Fallback base background if image fails
     doc.setFillColor(252, 252, 255);

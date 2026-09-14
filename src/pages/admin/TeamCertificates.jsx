@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import jsPDF from 'jspdf';
-import { CERTIFICATE_TEMPLATE_BASE64 } from '../../assets/certificateTemplateBase64';
+import { CERTIFICATE_TEMPLATE_BASE64 } from '../../assets/certificateTemplateBase64.js';
 import { Download, Award, CheckCircle2 } from 'lucide-react';
 
 // ─── Team Data for requested 4 teams ──────────────────────────────────────────
@@ -16,9 +16,9 @@ function generateTop5Certificate(teamName, memberName) {
   const doc = new jsPDF({ orientation: 'landscape', unit: 'mm', format: 'a4' });
   const W = 297, H = 210, cx = W / 2;
 
-  // Render the exact background image template provided
+  // Render the exact background image template provided at ultra-high 300 DPI quality
   try {
-    doc.addImage(CERTIFICATE_TEMPLATE_BASE64, 'PNG', 0, 0, W, H);
+    doc.addImage(CERTIFICATE_TEMPLATE_BASE64, 'PNG', 0, 0, W, H, undefined, 'NONE');
   } catch {
     doc.setFillColor(252, 252, 255);
     doc.rect(0, 0, W, H, 'F');
