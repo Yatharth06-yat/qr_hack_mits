@@ -258,55 +258,44 @@ export default function Login() {
                               </p>
                             </div>
 
-                            {present && (
-                              <button
-                                onClick={() => handleDownloadTeamCert(team)}
-                                disabled={downloadingId === team.id}
-                                className="px-4 py-2 bg-amber-500 hover:bg-amber-400 text-slate-950 font-extrabold text-xs rounded-xl transition-all flex items-center justify-center space-x-1.5"
-                              >
-                                <Download className="w-3.5 h-3.5" />
-                                <span>Download Team PDF ({members.length})</span>
-                              </button>
-                            )}
+                            <button
+                              onClick={() => handleDownloadTeamCert(team)}
+                              disabled={downloadingId === team.id}
+                              className="px-4 py-2 bg-amber-500 hover:bg-amber-400 text-slate-950 font-extrabold text-xs rounded-xl transition-all flex items-center justify-center space-x-1.5 cursor-pointer"
+                            >
+                              <Download className="w-3.5 h-3.5" />
+                              <span>Download Team PDF ({members.length})</span>
+                            </button>
                           </div>
 
-                          {!present ? (
-                            <div className="bg-rose-500/10 border border-rose-500/30 p-3 rounded-xl text-rose-300 text-xs leading-relaxed">
-                              <p className="font-bold flex items-center">
-                                <XCircle className="w-3.5 h-3.5 mr-1 text-rose-400" /> Notice:
-                              </p>
-                              Certificates are issued exclusively for teams marked as <strong>PRESENT</strong> at the check-in desk during the hackathon.
-                            </div>
-                          ) : (
-                            <div className="space-y-2">
-                              <p className="text-[11px] font-bold text-slate-500 uppercase tracking-wider">Team Member Certificates:</p>
-                              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-                                {members.map((m, mIdx) => (
-                                  <div
-                                    key={m.id || mIdx}
-                                    className="bg-slate-950 border border-slate-800 p-3 rounded-xl flex items-center justify-between"
-                                  >
-                                    <div>
-                                      <p className="text-xs font-bold text-white">
-                                        {m.name}
-                                        {mIdx === 0 && <span className="ml-1 text-[9px] text-indigo-400 font-semibold">(Leader)</span>}
-                                      </p>
-                                      <p className="text-[10px] text-slate-400 font-mono">{m.email || 'Participant'}</p>
-                                    </div>
-
-                                    <button
-                                      onClick={() => handleDownloadMemberCert(m, team)}
-                                      disabled={downloadingId === (m.id || m.name)}
-                                      className="px-3 py-1.5 bg-amber-500/10 hover:bg-amber-500 text-amber-300 hover:text-slate-950 border border-amber-500/30 font-bold text-xs rounded-lg transition-all flex items-center space-x-1"
-                                    >
-                                      <Download className="w-3 h-3" />
-                                      <span>PDF</span>
-                                    </button>
+                          <div className="space-y-2">
+                            <p className="text-[11px] font-bold text-slate-500 uppercase tracking-wider">Team Member Certificates:</p>
+                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                              {members.map((m, mIdx) => (
+                                <div
+                                  key={m.id || mIdx}
+                                  className="bg-slate-950 border border-slate-800 p-3 rounded-xl flex items-center justify-between"
+                                >
+                                  <div>
+                                    <p className="text-xs font-bold text-white">
+                                      {m.name}
+                                      {mIdx === 0 && <span className="ml-1 text-[9px] text-indigo-400 font-semibold">(Leader)</span>}
+                                    </p>
+                                    <p className="text-[10px] text-slate-400 font-mono">{m.email || 'Participant'}</p>
                                   </div>
-                                ))}
-                              </div>
+
+                                  <button
+                                    onClick={() => handleDownloadMemberCert(m, team)}
+                                    disabled={downloadingId === (m.id || m.name)}
+                                    className="px-3 py-1.5 bg-amber-500/10 hover:bg-amber-500 text-amber-300 hover:text-slate-950 border border-amber-500/30 font-bold text-xs rounded-lg transition-all flex items-center space-x-1 cursor-pointer"
+                                  >
+                                    <Download className="w-3 h-3" />
+                                    <span>PDF</span>
+                                  </button>
+                                </div>
+                              ))}
                             </div>
-                          )}
+                          </div>
                         </div>
                       );
                     })}
