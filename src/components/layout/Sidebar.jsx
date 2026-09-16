@@ -26,7 +26,7 @@ const NAV_ITEMS = [
 ];
 
 const ADMIN_NAV_ITEMS = [
-  { to: '/certificates-admin', icon: Award, label: 'Certificates Desk' },
+  { to: '/certificates-admin', icon: Award, label: 'Certificates & Excel IDs' },
   { to: '/team-certificates',  icon: Award, label: '🏆 Top 5 Certificates' },
   { to: '/present-teams', icon: FileText,    label: 'Present Teams PDF' },
   { to: '/import',    icon: FileSpreadsheet, label: 'Import Excel' },
